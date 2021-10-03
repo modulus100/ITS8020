@@ -1,0 +1,76 @@
+### CMake template
+cmake-build-debug/CMakeLists.txt.user
+cmake-build-debug/CMakeCache.txt
+cmake-build-debug/CMakeFiles
+cmake-build-debug/CMakeScripts
+cmake-build-debug/Testing
+cmake-build-debug/Makefile
+cmake-build-debug/cmake_install.cmake
+cmake-build-debug/install_manifest.txt
+cmake-build-debug/compile_commands.json
+cmake-build-debug/CTestTestfile.cmake
+cmake-build-debug/_deps
+cmake-build-debug/watch_command_posix
+cmake-build-debug/watch_command_posix.cbp
+
+### VisualStudioCode template
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+### C template
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# JetBrains
+.idea
