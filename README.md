@@ -6,4 +6,31 @@ Linux dev setup is based on [this](https://github.com/maliksahil/docker-ubuntu-s
 [Post](https://www.codemag.com/article/1811021/Docker-for-Developers) about Linux dev setup  
 
 
+## Build
+Go to the project root and create a folder for build files
+```
+cd ITS8020
+mkdir cmake-build-debug
+```
+
+Init project with cmake, it will generate all requited files to build the project
+```
+cd cmake-build-debug
+cmake ..
+```
+Build the project
+```
+make
+```
+
+## Run
+Run compiled program from **cmake-build-debug**
+```
+./watch_command_posix
+```
+
+## Clean the build
+```
+make clean
+```
 
