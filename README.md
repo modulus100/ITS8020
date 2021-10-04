@@ -13,7 +13,7 @@ cd ITS8020
 mkdir cmake-build-debug
 ```
 
-Init project with cmake, it will generate all requited files to build the project
+Init project with cmake, it will generate all required files to build the project
 ```
 cd cmake-build-debug
 cmake ..
