@@ -24,7 +24,7 @@ make
 ```
 
 ## Run
-Run compiled program from **cmake-build-debug**
+Run compiled program from the **cmake-build-debug**
 ```
 ./watch_command_posix
 ```
