@@ -10,12 +10,12 @@ Linux dev setup is based on [this](https://github.com/maliksahil/docker-ubuntu-s
 Go to the project root and create a folder for build files
 ```
 cd ITS8020
-mkdir cmake-build-debug
+mkdir build
 ```
 
 Init project with cmake, it will generate all required files to build the project
 ```
-cd cmake-build-debug
+cd build
 cmake ..
 ```
 Build the project
@@ -24,9 +24,15 @@ make
 ```
 
 ## Run
-Run compiled program from the **cmake-build-debug**
 ```
+cd build
 ./watch_command_posix
+```
+
+## Test
+cd build
+```
+ctest
 ```
 
 ## Clean the build
