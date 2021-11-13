@@ -37,6 +37,7 @@ ctest
 
 ## Clean the build
 ```
+cd build
 make clean
 ```
 
