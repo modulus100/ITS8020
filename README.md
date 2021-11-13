@@ -30,8 +30,8 @@ cd build
 ```
 
 ## Test
-cd build
 ```
+cd build
 ctest
 ```
 
