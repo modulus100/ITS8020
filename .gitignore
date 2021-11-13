@@ -12,6 +12,10 @@ test/CMakeFiles
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+/.vscode/
+.vscode
+.vscode/settings.json
+.vscode/c_cpp_properties.json
 
 # Local History for Visual Studio Code
 .history/
