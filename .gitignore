@@ -1,5 +1,5 @@
 ### CMake template
-cmake-build-debug/
+/cmake-build-debug/
 
 src/CMakeFiles
 test/CMakeFiles
