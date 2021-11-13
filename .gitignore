@@ -1,17 +1,8 @@
 ### CMake template
-cmake-build-debug/CMakeLists.txt.user
-cmake-build-debug/CMakeCache.txt
-cmake-build-debug/CMakeFiles
-cmake-build-debug/CMakeScripts
-cmake-build-debug/Testing
-cmake-build-debug/Makefile
-cmake-build-debug/cmake_install.cmake
-cmake-build-debug/install_manifest.txt
-cmake-build-debug/compile_commands.json
-cmake-build-debug/CTestTestfile.cmake
-cmake-build-debug/_deps
-cmake-build-debug/watch_command_posix
-cmake-build-debug/watch_command_posix.cbp
+cmake-build-debug/
+
+src/CMakeFiles
+test/CMakeFiles
 
 ### VisualStudioCode template
 .vscode/*
