@@ -1,7 +1,8 @@
 # ITS8020
 Assignment [description](https://gitlab.cs.ttu.ee/henvas/its8020-materials/-/tree/master/assignment/watch)  
-Template for this project is based on [this](https://github.com/bast/gtest-demo) example  
-Technologies: C/C++, CMake, GoogleTest
+Template for this project is based on [this](https://github.com/bast/gtest-demo) example 
+but modified to support C and latest GoogleTest  
+Technologies: **C/C++**, **CMake**, **GoogleTest**
 
 ## Setup (Optional)
 Linux dev setup is based on [this](https://github.com/maliksahil/docker-ubuntu-sahil) repository  
