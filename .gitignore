@@ -16,6 +16,7 @@ test/CMakeFiles
 .vscode
 .vscode/settings.json
 .vscode/c_cpp_properties.json
+.DS_Store
 
 # Local History for Visual Studio Code
 .history/
