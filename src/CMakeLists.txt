@@ -3,6 +3,7 @@ add_library(example)
 target_sources(example
   PRIVATE
         example.c
+        watch.c
   PUBLIC
     example.h
   )
@@ -11,6 +12,8 @@ target_include_directories(example
   PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
   )
+
+add_executable(watch_command_posix watch.c)
 
 # we use this to get code coverage
 # flags are only valid with the GNU compiler and on Linux
