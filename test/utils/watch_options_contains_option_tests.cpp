@@ -11,10 +11,10 @@ TEST(utils, contains_short_version) {
     char const *long_option = "";
 
     // Act
-    int result = contains_option(short_version, long_option, actual_option);
+    int contains = contains_option(short_version, long_option, actual_option);
 
     // Assert
-    ASSERT_TRUE(result);
+    ASSERT_TRUE(contains);
 }
 
 TEST(utils, contains_long_version) {
@@ -24,10 +24,10 @@ TEST(utils, contains_long_version) {
     char const *long_option = "--version";
 
     // Act
-    int result = contains_option(short_version, long_option, actual_option);
+    int contains = contains_option(short_version, long_option, actual_option);
 
     // Assert
-    ASSERT_TRUE(result);
+    ASSERT_TRUE(contains);
 }
 
 TEST(utils, no_options) {
@@ -37,8 +37,8 @@ TEST(utils, no_options) {
     char const *long_option = "";
 
     // Act
-    int result = contains_option(short_version, long_option, actual_option);
+    int contains = contains_option(short_version, long_option, actual_option);
 
     // Assert
-    ASSERT_FALSE(result);
+    ASSERT_FALSE(contains);
 }
