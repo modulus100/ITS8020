@@ -11,7 +11,7 @@ FetchContent_MakeAvailable(gtest)
 add_executable(unit_tests
         utils/example_add.cpp
         utils/example_subtract.cpp
-        utils/watch_options_print_usage_tests.cpp
+        utils/watch_options_get_usage_tests.cpp
 )
 
 target_link_libraries(unit_tests
