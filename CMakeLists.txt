@@ -21,7 +21,8 @@ if (NOT GCOV_PATH)
     message(FATAL_ERROR "Code coverage analysis requires gcov!")
 endif ()
 
-add_subdirectory(src)
+add_subdirectory(src/utils)
+add_subdirectory(src/app)
 
 enable_testing()
 

@@ -8,17 +8,17 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
 
-add_executable(
-    unit_tests
-    example_add.cpp
-    example_subtract.cpp
-    )
+add_executable(unit_tests
+        utils/example_add.cpp
+        utils/example_subtract.cpp
+        utils/watch_options_print_usage_tests.cpp
+)
 
 target_link_libraries(unit_tests
   PRIVATE
-    example
+        utils
     gtest_main
-  )
+        )
 
 # automatic discovery of unit tests
 include(GoogleTest)

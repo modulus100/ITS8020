@@ -1,0 +1,2 @@
+add_executable(watch_command_posix watch.c)
+target_link_libraries(watch_command_posix utils)
