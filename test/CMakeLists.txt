@@ -9,10 +9,10 @@ set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
 
 add_executable(unit_tests
-        utils/example_add.cpp
-        utils/example_subtract.cpp
+        utils/example_add_tests.cpp
+        utils/example_subtract_tests.cpp
         utils/watch_options_get_usage_tests.cpp
-)
+        utils/watch_options_contains_option_tests.cpp)
 
 target_link_libraries(unit_tests
   PRIVATE

@@ -7,10 +7,10 @@
 //#include <sys/wait.h>
 //#include "ms/ms.h"
 #include "../utils/watch_options.h"
-#include "../utils/example.h"
+
+#define VERSION "0.0.1"
 
 int main(int argc, const char **argv) {
-    printf("watch test");
     if (argc == 1 || argc == 0) {
         printf("%s", get_usage());
 //        printf(" %f", add_numbers(1, 3));

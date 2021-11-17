@@ -1,3 +1,4 @@
+#include <string.h>
 #include "watch_options.h"
 
 const char *get_usage() {
@@ -15,4 +16,8 @@ const char *get_usage() {
             "    -h, --help            display this help and exit\n"
             "\n"
     );
+}
+
+int contains_option(const char *short_option, const char *long_option, const char *actual_option) {
+    return !strcmp(short_option, actual_option) || !strcmp(long_option, actual_option);
 }
