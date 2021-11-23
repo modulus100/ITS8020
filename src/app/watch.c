@@ -11,7 +11,6 @@
 #define VERSION "0.0.1"
 #define ARGS_LIMIT 4
 
-
 void print_usage_and_exit();
 void check_simple_args(int argc, const char **argv);
 void execute_watch(long interval, char *command_args[4]);
