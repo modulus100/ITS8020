@@ -1,78 +1,101 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-//#include <unistd.h>
-//#include <time.h>
-//#include <fcntl.h>
-//#include <sys/wait.h>
-//#include "ms/ms.h"
-#include "../utils/watch_options.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <utils/argument_parser.h>
+#include "utils/watch_utils.h"
+#include "utils/string_utils.h"
 
 #define VERSION "0.0.1"
-#define DEFAULT_INTERVAL 2
-#define ARGS_MAX 128
+#define ARGS_LIMIT 4
 
-static int quiet = 0;
-static int halt = 0;
-static int clear = 0;
 
-void print_usage() {
-    printf("%s", get_usage());
+void print_usage_and_exit();
+void check_simple_args(int argc, const char **argv);
+void execute_watch(long interval, char *command_args[4]);
+
+static void signal_handler() {
+    fflush(stdout);
     exit(1);
 }
 
 int main(int argc, const char **argv) {
-    if (argc == 1 || argc == 0) {
-        print_usage();
+    if (argc == 1) {
+        print_usage_and_exit();
     }
 
-    int interval = DEFAULT_INTERVAL;
-    int len = 0;
-    int interpret = 1;
-    char *args[ARGS_MAX] = {0};
+    // handle program termination
+    struct sigaction psa;
+    psa.sa_handler = signal_handler;
+    sigaction(SIGTERM, &psa, NULL);
 
-    for (int i = 1; i < argc; ++i) {
+    // handler arguments
+    check_simple_args(argc, argv);
+    struct ParseResult parsed_result = parse_arguments(argc, argv);
+
+    if (parsed_result.parse_failed) {
+        fprintf(stderr, "%s", parsed_result.reason);
+        free_parse_result(&parsed_result);
+        exit(1);
+    }
+
+    char *arguments = join(parsed_result.args, parsed_result.args_length, " ");
+    char *cmd[4] = {"sh", "-c", arguments, 0};
+
+    free_parse_result(&parsed_result);
+    execute_watch(parsed_result.interval, cmd);
+
+    return 0;
+}
+
+void execute_watch(long interval, char *command_args[4]) {
+    do {
+        pid_t pid;
+        int status;
+
+        switch (pid = fork()) {
+            // error
+            case -1:
+                perror("couldn't fork");
+                exit(1);
+                // child
+            case 0:
+                execvp(command_args[0], command_args);
+                // parent
+            default:
+                if (waitpid(pid, &status, 0) < 0) {
+                    perror("couldn't waitpid");
+                    exit(1);
+                }
+
+                // exit > 0
+                if (WEXITSTATUS(status)) {
+                    fprintf(stderr, "\033[90mexit: %d\33[0m\n\n", WEXITSTATUS(status));
+                }
+
+                thread_sleep(interval);
+        }
+    } while (1);
+}
+
+void check_simple_args(int argc, const char **argv) {
+    for (int i = 1; i < argc; i++) {
         const char *arg = argv[i];
-        if (!interpret) goto arg;
 
-        if (contains_option("-h", "--help", arg)) {
-            print_usage();
+        if (contains_argument("-h", "--help", arg)) {
+            print_usage_and_exit();
         }
 
-        if (contains_option("-q", "--quiet", arg)) {
-            quiet = 1;
-            continue;
-        }
-
-        if (contains_option("-c", "--clear", arg)) {
-            clear = 1;
-            continue;
-        }
-
-        if (contains_option("-x", "--halt", arg)) {
-            halt = 1;
-            continue;
-        }
-
-        if (contains_option("-v", "--version", arg)) {
+        if (contains_argument("-v", "--version", arg)) {
             printf("%s\n", VERSION);
             exit(1);
         }
-
-        if (contains_option("-i", "--interval", arg)) {
-            if (argc - 1 == i) {
-                fprintf(stderr, "\n  --interval requires an argument\n\n");
-                exit(1);
-            }
-
-            arg = argv[++i];
-            continue;
-        }
-
-        arg:
-        args[len++] = (char *) arg;
-        interpret = 0;
     }
+}
 
-    return 0;
+void print_usage_and_exit() {
+    printf("%s", get_usage());
+    exit(1);
 }

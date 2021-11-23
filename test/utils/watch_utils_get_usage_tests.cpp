@@ -2,10 +2,10 @@
 #include <cstring>
 
 extern "C" {
-#include "utils/watch_options.h"
+#include "utils/watch_utils.h"
 }
 
-TEST(utils, get_valid_usage) {
+TEST(utils, get_usage_returns_usage_info) {
     // Arrange
     const char *usage;
     // Act

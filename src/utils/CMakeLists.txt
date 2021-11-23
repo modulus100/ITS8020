@@ -1,11 +1,11 @@
-add_library(utils)
+add_library(utils string_utils.c string_utils.h argument_parser.h argument_parser.c)
 
 target_sources(utils
         PRIVATE
         example.c
-        watch_options.c
+        watch_utils.c
         PUBLIC
-        watch_options.h
+        watch_utils.h
         example.h
         )
 
