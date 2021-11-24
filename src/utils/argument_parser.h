@@ -14,6 +14,6 @@ struct ParseResult {
  * @param argv from main
  * @return parse result with props
  */
-struct ParseResult parse_arguments(int argc, const char **argv);
+struct ParseResult parse_arguments(int argc, char **argv);
 
 void free_parse_result(struct ParseResult *result);

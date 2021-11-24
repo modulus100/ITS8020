@@ -18,10 +18,9 @@ void free_parse_result(struct ParseResult *result) {
     }
 
     free(result->args);
-    free(result->reason);
 }
 
-struct ParseResult parse_arguments(int argc, const char **args) {
+struct ParseResult parse_arguments(int argc, char **args) {
     struct ParseResult parse_result = {
         .interval = DEFAULT_INTERVAL,
         .args_length = 0,
