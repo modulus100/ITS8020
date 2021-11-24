@@ -20,19 +20,17 @@ static void signal_handler() {
     exit(1);
 }
 
-int main(int argc, const char **argv) {
+int main(int argc, const char **args) {
     if (argc == 1) {
         print_usage_and_exit();
     }
 
-    // handle program termination
     struct sigaction psa;
     psa.sa_handler = signal_handler;
     sigaction(SIGTERM, &psa, NULL);
 
-    // handler arguments
-    check_simple_args(argc, argv);
-    struct ParseResult parsed_result = parse_arguments(argc, argv);
+    check_simple_args(argc, args);
+    struct ParseResult parsed_result = parse_arguments(argc, args);
 
     if (parsed_result.parse_failed) {
         fprintf(stderr, "%s", parsed_result.reason);
@@ -50,33 +48,29 @@ int main(int argc, const char **argv) {
 }
 
 void execute_watch(long interval, char *command_args[4]) {
-    do {
-        pid_t pid;
+    while (1) {
         int status;
+        pid_t pid = fork();
 
-        switch (pid = fork()) {
-            // error
+        switch (pid) {
             case -1:
-                perror("couldn't fork");
+                perror("fork failed");
                 exit(1);
-                // child
             case 0:
                 execvp(command_args[0], command_args);
-                // parent
             default:
                 if (waitpid(pid, &status, 0) < 0) {
-                    perror("couldn't waitpid");
+                    perror("waitpid failed");
                     exit(1);
                 }
 
-                // exit > 0
                 if (WEXITSTATUS(status)) {
                     fprintf(stderr, "\033[90mexit: %d\33[0m\n\n", WEXITSTATUS(status));
                 }
 
                 thread_sleep(interval);
         }
-    } while (1);
+    }
 }
 
 void check_simple_args(int argc, const char **argv) {

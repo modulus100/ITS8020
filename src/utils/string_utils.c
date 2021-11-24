@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
-#include "watch_utils.h"
+#include "string_utils.h"
 
 int length(char **strings) {
     int n = 0;
@@ -12,14 +12,14 @@ int length(char **strings) {
     return n + 1;
 }
 
-char *join(char **strings, int len, char *val) {
+char *join(char **strings, int len, char *separator) {
     --len;
-    char *buf = calloc(1, length(strings) + len * strlen(val) + 1);
+    char *buf = calloc(1, length(strings) + len * strlen(separator) + 1);
     char *str;
 
     while ((str = *strings++)) {
         strcat(buf, str);
-        if (*strings) strcat(buf, val);
+        if (*strings) strcat(buf, separator);
     }
     return buf;
 }

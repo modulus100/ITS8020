@@ -21,7 +21,7 @@ void free_parse_result(struct ParseResult *result) {
     free(result->reason);
 }
 
-struct ParseResult parse_arguments(int argc, const char **argv) {
+struct ParseResult parse_arguments(int argc, const char **args) {
     struct ParseResult parse_result = {
         .interval = DEFAULT_INTERVAL,
         .args_length = 0,
@@ -31,7 +31,7 @@ struct ParseResult parse_arguments(int argc, const char **argv) {
     int interpret_flag = 1;
 
     for (int i = 1; i < argc; i++) {
-        const char *arg = argv[i];
+        const char *arg = args[i];
 
         if (!interpret_flag) {
             goto add_arg;
@@ -44,7 +44,7 @@ struct ParseResult parse_arguments(int argc, const char **argv) {
                 return parse_result;
             }
 
-            arg = argv[++i];
+            arg = args[++i];
             parse_result.interval = string_to_milliseconds(arg);
             continue;
         }
