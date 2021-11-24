@@ -28,15 +28,20 @@ make
 
 ## Run
 ```
-cd build
-./watch_command_posix -n 2 pwd
+cd build/bin
+./watch_command_posix -n 1 echo test
 ```
+
+
+![alt text](images/run_example.png)
 
 ## Test
 ```
 cd build
 ctest
 ```
+
+![alt text](images/test_example.png)
 
 ## Clean the build
 ```
