@@ -29,7 +29,7 @@ make
 ## Run
 ```
 cd build
-./watch_command_posix
+./watch_command_posix -n 2 pwd
 ```
 
 ## Test
