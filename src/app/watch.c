@@ -78,7 +78,7 @@ void execute_watch(struct ParseResult *parse_result) {
 }
 
 void check_simple_args(int argc, char **argv) {
-    if (argc != 2) {
+    if (argc < 2) {
         return;
     }
     if (contains_argument("-h", "--help", argv[1])) {
