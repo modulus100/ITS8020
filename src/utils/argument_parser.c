@@ -5,7 +5,7 @@
 #include "argument_parser.h"
 
 #define ARGS_LIMIT 10
-#define DEFAULT_INTERVAL 1000
+#define DEFAULT_INTERVAL 1
 
 void add_argument(const char *arg, char **args, int index) {
     args[index] = malloc((strlen(arg) + 1) * sizeof(char));
@@ -22,7 +22,7 @@ void free_parse_result(struct ParseResult *result) {
 
 int get_interval(int argc, char **args) {
     int opt = getopt(argc, args, "n:");
-    return opt == 'n' ? atoi(optarg) * 1000 : DEFAULT_INTERVAL;
+    return opt == 'n' ? atoi(optarg) : DEFAULT_INTERVAL;
 }
 
 

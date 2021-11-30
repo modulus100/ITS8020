@@ -13,6 +13,7 @@
 void print_usage_and_exit();
 void check_simple_args(int, char **);
 void execute_watch(struct ParseResult *);
+void clear();
 
 static void signal_handler() {
     fflush(stdout);
@@ -70,7 +71,8 @@ void execute_watch(struct ParseResult *parse_result) {
                     exit(1);
                 }
 
-                thread_sleep(parse_result->interval);
+                sleep(parse_result->interval);
+                clear();
         }
     }
 }
@@ -79,7 +81,6 @@ void check_simple_args(int argc, char **argv) {
     if (argc != 2) {
         return;
     }
-
     if (contains_argument("-h", "--help", argv[1])) {
         print_usage_and_exit();
     }
@@ -93,4 +94,10 @@ void check_simple_args(int argc, char **argv) {
 void print_usage_and_exit() {
     printf("%s", get_usage());
     exit(1);
+}
+
+void clear() {
+    fprintf(stdout, "\033[2J");
+    fprintf(stdout, "\033[1;1H");
+    fflush(stdout);
 }
