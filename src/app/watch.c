@@ -6,21 +6,20 @@
 #include <signal.h>
 #include <utils/argument_parser.h>
 #include "utils/watch_utils.h"
-#include "utils/string_utils.h"
 
 #define VERSION "0.0.1"
 #define ARGS_LIMIT 4
 
 void print_usage_and_exit();
-void check_simple_args(int argc, const char **argv);
-void execute_watch(long interval, char *command_args[4]);
+void check_simple_args(int, char **);
+void execute_watch(struct ParseResult *);
 
 static void signal_handler() {
     fflush(stdout);
     exit(1);
 }
 
-int main(int argc, const char **args) {
+int main(int argc, char **args) {
     if (argc == 1) {
         print_usage_and_exit();
     }
@@ -30,7 +29,7 @@ int main(int argc, const char **args) {
     sigaction(SIGTERM, &psa, NULL);
 
     check_simple_args(argc, args);
-    struct ParseResult parsed_result = parse_arguments(argc, args);
+    struct ParseResult parsed_result = get_arguments(argc, args);
 
     if (parsed_result.parse_failed) {
         fprintf(stderr, "%s", parsed_result.reason);
@@ -38,16 +37,11 @@ int main(int argc, const char **args) {
         exit(1);
     }
 
-    char *arguments = join(parsed_result.args, parsed_result.args_length, " ");
-    char *cmd[4] = {"sh", "-c", arguments, 0};
-
-    free_parse_result(&parsed_result);
-    execute_watch(parsed_result.interval, cmd);
-
+    execute_watch(&parsed_result);
     return 0;
 }
 
-void execute_watch(long interval, char *command_args[4]) {
+void execute_watch(struct ParseResult *parse_result) {
     while (1) {
         int status;
         pid_t pid = fork();
@@ -55,36 +49,44 @@ void execute_watch(long interval, char *command_args[4]) {
         switch (pid) {
             case -1:
                 perror("fork failed");
+                free_parse_result(parse_result);
                 exit(1);
             case 0:
-                execvp(command_args[0], command_args);
+                if (execvp(parse_result->args[0], parse_result->args) == -1) {
+                    perror("execvp error");
+                    free_parse_result(parse_result);
+                    exit(1);
+                }
             default:
-                if (waitpid(pid, &status, 0) < 0) {
+                if (waitpid(pid, &status, 0) == -1) {
                     perror("waitpid failed");
+                    free_parse_result(parse_result);
                     exit(1);
                 }
 
                 if (WEXITSTATUS(status)) {
                     fprintf(stderr, "\033[90mexit: %d\33[0m\n\n", WEXITSTATUS(status));
+                    free_parse_result(parse_result);
+                    exit(1);
                 }
 
-                thread_sleep(interval);
+                thread_sleep(parse_result->interval);
         }
     }
 }
 
-void check_simple_args(int argc, const char **argv) {
-    for (int i = 1; i < argc; i++) {
-        const char *arg = argv[i];
+void check_simple_args(int argc, char **argv) {
+    if (argc != 2) {
+        return;
+    }
 
-        if (contains_argument("-h", "--help", arg)) {
-            print_usage_and_exit();
-        }
+    if (contains_argument("-h", "--help", argv[1])) {
+        print_usage_and_exit();
+    }
 
-        if (contains_argument("-v", "--version", arg)) {
-            printf("%s\n", VERSION);
-            exit(1);
-        }
+    if (contains_argument("-v", "--version", argv[1])) {
+        printf("%s\n", VERSION);
+        exit(1);
     }
 }
 

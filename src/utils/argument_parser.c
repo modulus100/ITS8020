@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <ctype.h>
 #include "argument_parser.h"
-#include "string_utils.h"
-#include "watch_utils.h"
 
-#define ARGS_LIMIT 4
-#define DEFAULT_INTERVAL 2
+#define ARGS_LIMIT 10
+#define DEFAULT_INTERVAL 1000
 
 void add_argument(const char *arg, char **args, int index) {
     args[index] = malloc((strlen(arg) + 1) * sizeof(char));
@@ -20,37 +20,33 @@ void free_parse_result(struct ParseResult *result) {
     free(result->args);
 }
 
-struct ParseResult parse_arguments(int argc, char **args) {
-    struct ParseResult parse_result = {
-        .interval = DEFAULT_INTERVAL,
-        .args_length = 0,
-        .args = malloc(ARGS_LIMIT * sizeof(char *))
-    };
+int get_interval(int argc, char **args) {
+    int opt = getopt(argc, args, "n:");
+    return opt == 'n' ? atoi(optarg) * 1000 : DEFAULT_INTERVAL;
+}
 
-    int interpret_flag = 1;
+
+struct ParseResult get_arguments(int argc, char **args) {
+    struct ParseResult parse_result = {
+        .interval = get_interval(argc, args),
+        .args_length = 0,
+        .args = malloc(ARGS_LIMIT * sizeof(char *)),
+        .parse_failed = 0,
+        .clear = 0
+    };
 
     for (int i = 1; i < argc; i++) {
         const char *arg = args[i];
 
-        if (!interpret_flag) {
-            goto add_arg;
-        }
-
-        if (contains_short_argument("-n", arg)) {
-            if (argc - 1 == i) {
-                parse_result.parse_failed = 1;
-                parse_result.reason = "\n  --interval requires an argument\n\n";
-                return parse_result;
-            }
-
-            arg = args[++i];
-            parse_result.interval = string_to_milliseconds(arg);
+        if (strcmp(args[i], "-n") == 0 && i == 1) {
             continue;
         }
 
-        add_arg:
+        if (isdigit(*arg) && strcmp(args[i - 1], "-n") == 0) {
+            continue;
+        }
+
         add_argument(arg, parse_result.args, parse_result.args_length++);
-        interpret_flag = 0;
     }
 
     if (!parse_result.args_length) {
@@ -59,6 +55,5 @@ struct ParseResult parse_arguments(int argc, char **args) {
         return parse_result;
     }
 
-    parse_result.parse_failed = 0;
     return parse_result;
 }

@@ -1,4 +1,4 @@
-add_library(utils string_utils.c string_utils.h argument_parser.h argument_parser.c)
+add_library(utils argument_parser.h argument_parser.c)
 
 target_sources(utils
         PRIVATE

@@ -13,10 +13,7 @@ add_executable(unit_tests
         utils/example_subtract_tests.cpp
         utils/watch_utils_get_usage_tests.cpp
         utils/watch_utils_contains_argument_tests.cpp
-        utils/string_utils_join_tests.cpp
-        utils/string_utils_string_to_milliseconds_tests.cpp
         utils/argument_parser_parse_arguments_tests.cpp
-        utils/string_utils_length_tests.cpp
         )
 
 target_link_libraries(unit_tests

@@ -6,6 +6,7 @@ struct ParseResult {
     int args_length;
     int parse_failed;
     char *reason;
+    int clear;
 };
 
 /**
@@ -14,6 +15,6 @@ struct ParseResult {
  * @param argv from main
  * @return parse result with props
  */
-struct ParseResult parse_arguments(int argc, char **argv);
+struct ParseResult get_arguments(int argc, char **argv);
 
 void free_parse_result(struct ParseResult *result);
