@@ -39,7 +39,6 @@ int main(int argc, char **args) {
     }
 
     execute_watch(&parsed_result);
-    return 0;
 }
 
 _Noreturn void execute_watch(struct ParseResult *parse_result) {
