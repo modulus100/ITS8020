@@ -54,7 +54,7 @@ void execute_watch(struct ParseResult *parse_result) {
                 exit(1);
             case 0:
                 if (execvp(parse_result->args[0], parse_result->args) == -1) {
-                    perror("execvp error");
+                    perror("execvp failed, bad arguments");
                     free_parse_result(parse_result);
                     exit(1);
                 }
