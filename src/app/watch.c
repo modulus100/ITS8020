@@ -13,7 +13,7 @@
 void clear();
 void print_usage_and_exit();
 void check_simple_args(int, char **);
-void execute_watch(struct ParseResult *);
+_Noreturn void execute_watch(struct ParseResult *);
 
 static void signal_handler() {
     fflush(stdout);
@@ -42,16 +42,14 @@ int main(int argc, char **args) {
     return 0;
 }
 
-void execute_watch(struct ParseResult *parse_result) {
+_Noreturn void execute_watch(struct ParseResult *parse_result) {
     while (1) {
         int status;
         pid_t pid = fork();
 
         switch (pid) {
             case -1:
-                perror("fork failed");
-                free_parse_result(parse_result);
-                exit(1);
+                handle_error("fork failed", parse_result);
             case 0:
                 if (execvp(parse_result->args[0], parse_result->args) == -1) {
                     handle_error("execvp failed, bad arguments", parse_result);
