@@ -6,4 +6,6 @@
  */
 const char *get_usage();
 
-int contains_argument(const char *short_argument, const char *long_argument, const char *actual_argument);
+int contains_argument(const char *, const char *, const char *);
+
+void handle_error(char *, struct ParseResult *);

@@ -10,10 +10,10 @@
 #define VERSION "0.0.1"
 #define ARGS_LIMIT 4
 
+void clear();
 void print_usage_and_exit();
 void check_simple_args(int, char **);
 void execute_watch(struct ParseResult *);
-void clear();
 
 static void signal_handler() {
     fflush(stdout);
@@ -54,21 +54,16 @@ void execute_watch(struct ParseResult *parse_result) {
                 exit(1);
             case 0:
                 if (execvp(parse_result->args[0], parse_result->args) == -1) {
-                    perror("execvp failed, bad arguments");
-                    free_parse_result(parse_result);
-                    exit(1);
+                    handle_error("execvp failed, bad arguments", parse_result);
                 }
             default:
                 if (waitpid(pid, &status, 0) == -1) {
-                    perror("waitpid failed");
-                    free_parse_result(parse_result);
-                    exit(1);
+                    handle_error("waitpid failed", parse_result);
                 }
 
                 if (WEXITSTATUS(status)) {
                     fprintf(stderr, "\033[90mexit: %d\33[0m\n\n", WEXITSTATUS(status));
-                    free_parse_result(parse_result);
-                    exit(1);
+                    handle_error("", parse_result);
                 }
 
                 sleep(parse_result->interval);
